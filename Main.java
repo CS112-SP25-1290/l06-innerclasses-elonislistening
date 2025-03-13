@@ -34,6 +34,7 @@ public class Main
 	public static void main(String[] args)
 	{
 		// DECLARATION + INITIALIZATION
+		
 		Person p1 = new Person("Amira", "She, Her, Hers", "I am a Syrian Refugee", 40);
 		Person p2 = new Person("D'Andra", "She, Her, Hers","I am an African-American trans woman.", -20);
 		Person p3 = new Person("Jennifer", "She, Her, Hers", "I am a New Yorker", 140);
@@ -44,11 +45,15 @@ public class Main
 		int input;
 		
 		// WELCOME + INTRO
-		System.out.println("Welcome to the Privilege Calculator.\n\n"
-				+ "This is a small exercise that gives us a glimpse at how "
-				+ "fortunate we have been in life.\n");
+		boolean isStarting = true;
 
-		Main.fillInfo(self);
+		while (isStarting) {
+			System.out.println("Welcome to the Privilege Calculator.\n\n"
+					+ "This is a small exercise that gives us a glimpse at how "
+					+ "fortunate we have been in life.\n");
+
+			isStarting = Main.fillInfo(self);
+		}
 		
 		// INPUT + CALCULATION + OUTPUT
 		do{
@@ -74,11 +79,12 @@ public class Main
 					break;
 				case 3:
 					/***** TODO: (Part 1) implement a comparison case using the comparable method on the Person class to compare self to p1-p4*****/
+					try{
 					for (int i = 0; i < people.length; i++) {
 						int result = people[i].compareTo(self);
 
-						if (people[i].equals(self) || self.compareTo(people[i]) == -2) {
-							System.out.println("\nComparison either completed or encountered a fatal error.\n");
+						if (people[i].equals(self)) {
+							System.out.println("\nComparison Complete!\n");
 							break;
 						} else if (result > 0) {
 							System.out.println(people[i].getName() + " has more privilege than you.");
@@ -88,6 +94,10 @@ public class Main
 							System.out.println(people[i].getName() + " has the same privilege as you.");
 						}
 					}
+				} catch (Exception e) {
+					System.out.println("ERROR. OTHER PERSON IS NULL. Returning to Main Menu... ");
+					break;	
+				}
 					System.out.println("Returning to the main menu: ");
 					break;
 					
@@ -108,7 +118,7 @@ public class Main
 	}
 
 	/***** TODO: (Part 2) upgrade method to ask user for pronouns and background info *****/
-	public static void fillInfo(Person person){
+	public static boolean fillInfo(Person person){
 		//sets default privilege prior to questionnaire to 100
 		String name, pronouns, background;
 		
@@ -126,9 +136,16 @@ public class Main
 				+ "For example: I'm a [nationality / place of origin / ethnicity / sexuality / gender expression / etc.]...");
 		System.out.println("Tell us about yourself: ");
 		background = keyboard.nextLine();
-	
+		
+		try{
 		person.setName(name);
 		person.updateStory(pronouns, background);
+		return false;
+		
+	} catch (Exception e) {
+		System.out.println(e);
+		return true;
+		}
 	}
 
 	public static int doPrivilegeQuestionnaire() {

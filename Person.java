@@ -7,23 +7,23 @@ public class Person implements Comparable<Person>
 		private String pronouns;
 		private String background;
 
-		public Identity() {
+		private Identity() {
 			this(DEFAULT_PRONOUNS, DEFAULT_BACKGROUND);
 		}
-		public Identity(String pronouns, String background) {
+		private Identity(String pronouns, String background) {
 			this.pronouns = pronouns;
 			this.background = background;
 		}
 
-		public void setAll(String pronouns, String background) {
+		private void setAll(String pronouns, String background) {
 			this.pronouns = pronouns;
 			this.background = background;
 		}
-		public String getPronouns() {
+		private String getPronouns() {
 			return this.pronouns;
 		}
 
-		public String getBackground() {
+		private String getBackground() {
 			return this.background;
 		}
 		@Override
@@ -81,16 +81,27 @@ public class Person implements Comparable<Person>
 	}
 
 	// MUTATORS/SETTERS
-	public void setName(String name) {
-		this.name = name;
+	public void setName(String name) throws NullPointerException {
+		if (!(name == null || name == "")) {
+			this.name = name;
+		} else {
+			throw new NullPointerException("Name is null or contains zero characters. Please enter your name.");
+			
+		}
 	}
 
 	public void setStory(Identity story) {
 		this.story = story;
 	}
 
-	public void updateStory(String pronouns, String background) {
-		this.story.setAll(pronouns, background);
+	public void updateStory(String pronouns, String background) throws NullPointerException {
+		if (!(pronouns == null || pronouns == "" || background == null || background == "")) {
+			this.story.setAll(pronouns, background);
+		}
+		else {
+			throw new NullPointerException("Neither pronouns nor background can be empty or null. Please retry.");
+		}
+		
 	}
 
 	public void setPrivilege(int privilege) {
@@ -146,23 +157,12 @@ public class Person implements Comparable<Person>
 
 	@Override
 	public int compareTo(Person other) {
-		
-		int result = -2;
-
-		if (!(other == null)) {
-
-			if (this.getPrivilege() > other.getPrivilege()) {
-				result = 1;
-			} else if (this.getPrivilege() < other.getPrivilege()) {
-				result = -1;
-			} else if (this.getPrivilege() == other.getPrivilege()) {
-				result = 0;
-			}
+		if (other != null) {
+			return Integer.compare(this.privilege, other.privilege);
+		} else {
+			throw new NullPointerException();
 		}
-
-		return result;
-			
-		}
+	}
 		
 		
 	}
